@@ -11,88 +11,88 @@ require_once dirname(__FILE__) . '/../config.php';
 include _ROOT_PATH . '/app/security/check.php';
 
 //pobranie parametrów
-function getParams(&$x,&$y,&$operation){
-	$x = isset($_REQUEST['x']) ? $_REQUEST['x'] : null;
-	$y = isset($_REQUEST['y']) ? $_REQUEST['y'] : null;
-	$operation = isset($_REQUEST['op']) ? $_REQUEST['op'] : null;	
+function getParams(&$kwotaKredytu, &$iloscLat, &$oprocentowanie){
+	$kwotaKredytu = isset($_REQUEST['x']) ? $_REQUEST['x'] : null;
+	$iloscLat = isset($_REQUEST['y']) ? $_REQUEST['y'] : null;
+	$oprocentowanie = isset($_REQUEST['op']) ? $_REQUEST['op'] : null;
 }
 
 //walidacja parametrów z przygotowaniem zmiennych dla widoku
-function validate(&$x,&$y,&$operation,&$messages){
+function validate(&$kwotaKredytu, &$iloscLat, &$oprocentowanie, &$messages){
 	// sprawdzenie, czy parametry zostały przekazane
-	if ( ! (isset($x) && isset($y) && isset($operation))) {
+	if ( ! (isset($kwotaKredytu) && isset($iloscLat) && isset($oprocentowanie))) {
 		// sytuacja wystąpi kiedy np. kontroler zostanie wywołany bezpośrednio - nie z formularza
 		// teraz zakładamy, ze nie jest to błąd. Po prostu nie wykonamy obliczeń
 		return false;
 	}
 
 	// sprawdzenie, czy potrzebne wartości zostały przekazane
-	if ( $x == "") {
-		$messages [] = 'Nie podano liczby 1';
+	if ( $kwotaKredytu == "") {
+		$messages [] = 'Nie podano kwoty kredytu';
 	}
-	if ( $y == "") {
-		$messages [] = 'Nie podano liczby 2';
+	if ( $iloscLat == "") {
+		$messages [] = 'Nie podano ilosci lat';
 	}
 
 	//nie ma sensu walidować dalej gdy brak parametrów
 	if (count ( $messages ) != 0) return false;
 	
 	// sprawdzenie, czy $x i $y są liczbami całkowitymi
-	if (! is_numeric( $x )) {
-		$messages [] = 'Pierwsza wartość nie jest liczbą całkowitą';
+	if (! is_numeric( $kwotaKredytu )) {
+		$messages [] = 'Kwota kredytu nie jest liczbą całkowitą';
 	}
 	
-	if (! is_numeric( $y )) {
-		$messages [] = 'Druga wartość nie jest liczbą całkowitą';
+	if (! is_numeric( $iloscLat )) {
+		$messages [] = 'Lata nie są liczbą całkowitą';
 	}	
 
 	if (count ( $messages ) != 0) return false;
 	else return true;
 }
 
-function process(&$x,&$y,&$operation,&$messages,&$result){
+function process(&$kwotaKredytu, &$iloscLat, &$oprocentowanie, &$messages, &$result){
 	global $role;
 	
 	//konwersja parametrów na int
-	$x = intval($x);
-	$y = intval($y);
+	$kwotaKredytu = intval($kwotaKredytu);
+	$iloscLat = intval($iloscLat);
 	
 	//wykonanie operacji
-	switch ($operation) {
-		case 'minus' :
+	switch ($oprocentowanie) {
+		case '5' :
 			if ($role == 'admin'){
-				$result = $x - $y;
+                $result = (($kwotaKredytu*0.05*pow(1.05, $iloscLat))/(pow(1.05, $iloscLat)-1))/12;
 			} else {
-				$messages [] = 'Tylko administrator może odejmować !';
+				$messages [] = 'Tylko administrator może miec tak niskie oprocentowanie, dla użytkowników tylko powyżej 11% !';
 			}
 			break;
-		case 'times' :
-			$result = $x * $y;
+		case '15' :
+            $result = (($kwotaKredytu*0.15*pow(1.15, $iloscLat))/(pow(1.15, $iloscLat)-1))/12;
 			break;
-		case 'div' :
+		case '10' :
 			if ($role == 'admin'){
-				$result = $x / $y;
+                $result = (($kwotaKredytu*0.1*pow(1.1, $iloscLat))/(pow(1.1, $iloscLat)-1))/12;
 			} else {
-				$messages [] = 'Tylko administrator może dzielić !';
+				$messages [] = 'Tylko administrator może miec tak niskie oprocentowanie, dla użytkowników tylko powyżej 11% !';
 			}
 			break;
 		default :
-			$result = $x + $y;
+            $result = (($kwotaKredytu*0.2*pow(1.2, $iloscLat))/(pow(1.2, $iloscLat)-1))/12;
 			break;
 	}
 }
 
 //definicja zmiennych kontrolera
-$x = null;
-$y = null;
-$operation = null;
+$kwotaKredytu = null;
+$iloscLat = null;
+$oprocentowanie = null;
 $result = null;
 $messages = array();
 
 //pobierz parametry i wykonaj zadanie jeśli wszystko w porządku
-getParams($x,$y,$operation);
-if ( validate($x,$y,$operation,$messages) ) { // gdy brak błędów
-	process($x,$y,$operation,$messages,$result);
+getParams($kwotaKredytu,$iloscLat,$oprocentowanie);
+if ( validate($kwotaKredytu,$iloscLat,$oprocentowanie,$messages) ) { // gdy brak błędów
+	process($kwotaKredytu,$iloscLat,$oprocentowanie,$messages,$result);
 }
 
 // Wywołanie widoku z przekazaniem zmiennych

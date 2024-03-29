@@ -9,18 +9,18 @@
 <form action="<?php print(_APP_URL);?>/app/calc.php" method="get">
 	<label for="id_x">kwota kredytu: </label>
     <br/>
-	<input id="id_x" type="text" name="x" value="<?php if (isset($x)) print($x); ?>" />
+	<input id="id_x" type="text" name="x" value="<?php if (isset($kwotaKredytu)) print($kwotaKredytu); ?>" />
     <br/>
 	<label for="id_y">ilość lat: </label>
     <br/>
-	<input id="id_y" type="text" name="y" value="<?php if (isset($y)) print($y); ?>" />
+	<input id="id_y" type="text" name="y" value="<?php if (isset($iloscLat)) print($iloscLat); ?>" />
     <br/><br/>
     <label for="id_op">Oprocentowanie: </label>
     <select name="op">
-        <option value="5" <?php if (isset($operation)) if ($operation == '5') print('selected'); ?>>5%</option>  //5 procent
-        <option value="10" <?php if (isset($operation)) if ($operation == '10') print('selected'); ?>>10%</option> //10 procent
-        <option value="15" <?php if (isset($operation)) if ($operation == '15') print('selected'); ?>>15%</option> //15 procent
-        <option value="20" <?php if (isset($operation)) if ($operation == '20') print('selected'); ?>>20%</option>      //20 procent
+        <option value="5" <?php if (isset($oprocentowanie)) if ($oprocentowanie == '5') print('selected'); ?>>5%</option>  //5 procent
+        <option value="10" <?php if (isset($oprocentowanie)) if ($oprocentowanie == '10') print('selected'); ?>>10%</option> //10 procent
+        <option value="15" <?php if (isset($oprocentowanie)) if ($oprocentowanie == '15') print('selected'); ?>>15%</option> //15 procent
+        <option value="20" <?php if (isset($oprocentowanie)) if ($oprocentowanie == '20') print('selected'); ?>>20%</option>      //20 procent
     </select>
     <br/>
     <br/>

@@ -8,23 +8,23 @@ require_once dirname(__FILE__) . '/../config.php';
 
 // 1. pobranie parametrów
 
-$x = $_REQUEST ['x']; //kwota kredytu
-$y = $_REQUEST ['y']; //na ile lat
-$operation = $_REQUEST ['op']; //oprocentowanie
+$kwotaKredytu = $_REQUEST ['x']; //kwota kredytu
+$iloscLat = $_REQUEST ['y']; //na ile lat
+$oprocentowanie = $_REQUEST ['op']; //oprocentowanie
 
 // 2. walidacja parametrów z przygotowaniem zmiennych dla widoku
 
 // sprawdzenie, czy parametry zostały przekazane
-if ( ! (isset($x) && isset($y) && isset($operation))) {
+if ( ! (isset($kwotaKredytu) && isset($iloscLat) && isset($oprocentowanie))) {
 	//sytuacja wystąpi kiedy np. kontroler zostanie wywołany bezpośrednio - nie z formularza
 	$messages [] = 'Błędne wywołanie aplikacji. Brak jednego z parametrów.';
 }
 
 // sprawdzenie, czy potrzebne wartości zostały przekazane
-if ( $x == "") {
+if ( $kwotaKredytu == "") {
 	$messages [] = 'Nie podano liczby 1';
 }
-if ( $y == "") {
+if ( $iloscLat == "") {
 	$messages [] = 'Nie podano liczby 2';
 }
 
@@ -32,11 +32,11 @@ if ( $y == "") {
 if (empty( $messages )) {
 	
 	// sprawdzenie, czy $x i $y są liczbami całkowitymi
-	if (! is_numeric( $x )) {
+	if (! is_numeric( $kwotaKredytu )) {
 		$messages [] = 'Pierwsza wartość nie jest liczbą całkowitą';
 	}
 	
-	if (! is_numeric( $y )) {
+	if (! is_numeric( $iloscLat )) {
 		$messages [] = 'Druga wartość nie jest liczbą całkowitą';
 	}	
 
@@ -47,22 +47,22 @@ if (empty( $messages )) {
 if (empty ( $messages )) { // gdy brak błędów
 	
 	//konwersja parametrów na int
-	$x = intval($x);
-	$y = intval($y);
+	$kwotaKredytu = intval($kwotaKredytu);
+	$iloscLat = intval($iloscLat);
 	
 	//wykonanie operacji
-	switch ($operation) {
+	switch ($oprocentowanie) {
 		case '5' :      //5% x-kwota kredytu y-lata
-			$result = (($x*0.05*pow(1.05, $y))/(pow(1.05, $y)-1))/12;
+			$result = (($kwotaKredytu*0.05*pow(1.05, $iloscLat))/(pow(1.05, $iloscLat)-1))/12;
 			break;
 		case '10' :      //10%
-			$result = (($x*0.1*pow(1.1, $y))/(pow(1.1, $y)-1))/12;
+			$result = (($kwotaKredytu*0.1*pow(1.1, $iloscLat))/(pow(1.1, $iloscLat)-1))/12;
 			break;
 		case '15' :
-			$result = (($x*0.15*pow(1.15, $y))/(pow(1.15, $y)-1))/12;
+			$result = (($kwotaKredytu*0.15*pow(1.15, $iloscLat))/(pow(1.15, $iloscLat)-1))/12;
 			break;
 		case '20' :
-			$result = (($x*0.2*pow(1.2, $y))/(pow(1.2, $y)-1))/12;
+			$result = (($kwotaKredytu*0.2*pow(1.2, $iloscLat))/(pow(1.2, $iloscLat)-1))/12;
 			break;
 	}
 }
