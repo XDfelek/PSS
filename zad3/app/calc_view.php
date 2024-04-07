@@ -2,27 +2,26 @@
 include _ROOT_PATH.'/templates/top.php';
 ?>
 
-<h3>Prosty kalkulator</h2>
+<h3>Prosty kalkulator</h3>
 
-<form class="pure-form pure-form-stacked" action="<?php print(_APP_ROOT);?>/app/calc.php" method="post">
-	<fieldset>
-		<label for="x">Pierwsza liczba</label>
-		<input id="x" type="text" placeholder="wartość x" name="x" value="<?php out($form['x']); ?>">
+    <legend>Kalkulator Kredytowy</legend>
+    <fieldset>
+        <label for="id_x">Kwota kredytu: </label>
+        <input id="id_x" type="text" name="x" value="<?php out($kwotaKredytu) ?>" />
 
-		<label for="op">Operacja</label>
-		<select id="op" name="op">
-			<option value="plus">(+) dodaj</option>
-			<option value="minus">(-) odejmij </option>
-			<option value="times">(*) pomnóż</option>
-			<option value="div">(/) podziel</option>
-		</select>
-					
-		<label for="y">Druga liczba</label>
-		<input id="y" type="text" placeholder="wartość y" name="y" value="<?php out($form['y']); ?>">
+        <label for="id_y">Ilość lat: </label>
+        <input id="id_y" type="text" name="y" value="<?php out($iloscLat) ?>" />
 
-	</fieldset>
-	<button type="submit" class="pure-button pure-button-primary">Oblicz</button>
-</form>
+        <label for="id_op">Oprocentowanie: </label>
+        <select name="op">
+            <option value="5" <?php outSelectedOprocentowanie($oprocentowanie, 5) ?>>5%</option>  //5 procent
+            <option value="10" <?php outSelectedOprocentowanie($oprocentowanie, 10) ?>>10%</option> //10 procent
+            <option value="15" <?php outSelectedOprocentowanie($oprocentowanie, 15) ?>>15%</option> //15 procent
+            <option value="20" <?php outSelectedOprocentowanie($oprocentowanie, 20) ?>>20%</option>      //20 procent
+        </select>
+
+    </fieldset>
+    <input type="submit" value="Oblicz" class="pure-button pure-button-primary" />
 
 <div class="messages">
 
