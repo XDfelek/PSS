@@ -8,4 +8,7 @@ class config{
     public $root_path;
     public $action_root;
     public $action_url;
+    
+    public $login_action;
+    public $roles;
 }

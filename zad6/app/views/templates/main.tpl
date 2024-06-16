@@ -23,6 +23,7 @@
         <nav id="nav">
           <ul>
             <li><a href="{$conf->app_url}">Home</a></li>
+            {block name=logout}{/block}
           </ul>
         </nav>
       </header>
@@ -32,7 +33,14 @@
         <h2>Kalkulator Kredytowy</h2>
       </section>
 
-      {block name=content} Domyślna treść zawartości .... {/block}
+      
+      <section id="main" class="container">
+        <div class="col-12">
+          <section class="box">
+              {block name=content} Domyślna treść zawartości .... {/block}
+          </section>
+        </div>
+      </section>
 
       <footer id="footer">
 		<ul class="copyright">

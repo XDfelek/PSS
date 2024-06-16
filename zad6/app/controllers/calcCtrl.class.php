@@ -17,9 +17,9 @@ class calcCtrl{
     
     // pobranie parametrów
     public function getParams(){
-            $this->form->kwota = isset($_REQUEST['kwota']) ? $_REQUEST['kwota'] : null;
-            $this->form->raty = isset($_REQUEST['raty']) ? $_REQUEST['raty'] : null;
-            $this->form->procent = isset($_REQUEST['procent']) ? $_REQUEST ['procent'] : null;
+            $this->form->kwota = getFromRequest('kwota');
+            $this->form->raty = getFromRequest('raty');
+            $this->form->procent = getFromRequest('procent');
     }
 
     // 2. walidacja parametrów
@@ -60,7 +60,7 @@ class calcCtrl{
             return ! getMessages()->isError();
     }
 
-    public function process(){
+    public function action_calcCompute(){
         $this->getParams();
         
         if($this->validate()){
@@ -76,18 +76,25 @@ class calcCtrl{
          $this->generateView();
     }
     
+    public function action_calcShow(){
+            getMessages()->addInfo('Witaj w kalkulatorze');
+            $this->generateView();
+    }
+    
     public function generateView(){
 
+        
+        getSmarty()->assign('user',unserialize($_SESSION['user']));
         getSmarty()->assign('page_title','Przykład 05');
         getSmarty()->assign('page_description','Obiektowość. Funkcjonalność aplikacji zamknięta w metodach różnych obiektów. Pełen model MVC.');
         getSmarty()->assign('page_header','Obiekty w PHP');
 
 
         //pozostałe zmienne niekoniecznie muszą istnieć, dlatego sprawdzamy aby nie otrzymać ostrzeżenia
-        getSmarty()->assign('kwota',$this->form->kwota);
-        getSmarty()->assign('raty',$this->form->raty);
-        getSmarty()->assign('procent',$this->form->procent);
-        getSmarty()->assign('result',$this->result->result);
+//        getSmarty()->assign('kwota',$this->form->kwota);
+//        getSmarty()->assign('raty',$this->form->raty);
+//        getSmarty()->assign('procent',$this->form->procent);
+//        getSmarty()->assign('result',$this->result->result);
 
         // 5. Wywołanie szablonu
         getSmarty()->display('calc.tpl');
