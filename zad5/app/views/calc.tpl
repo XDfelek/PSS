@@ -1,4 +1,4 @@
-{extends file="../templates/main.html"}
+{extends file="main.tpl"}
 
 {block name=content}
 
@@ -8,7 +8,7 @@
       <h3>Oblicz swoją ratę</h3>
       <div class="row gtr-uniform gtr-50">
         <div class="col-6 col-12-mobilep">
-          <form method="post" action="{$app_url}/app/calc.php">
+            <form method="post" action="{$conf->action_root}calcCompute">
             <label for="id_kwota">Kwota: </label>
             <input id="id_kwota" type="text" name="kwota" /><br />
             <label for="id_raty">Ilość Lat: </label>
@@ -20,33 +20,29 @@
         </div>
         <div class="col-6 col-12-mobilep">
           {* wyświeltenie listy błędów, jeśli istnieją *} 
-		  {if (isset($messages))} 
-			{if (count ( $messages ) > 0)}
-				<ol style="margin: 2em auto; padding: 1em auto; border-radius: 5px; background-color: #f88;">
-				{foreach $messages as $msg }
-				{strip}
-					<li>{$msg}</li>
-				{/strip}
-				{/foreach}
-				</ol>
-			{/if}
-          {/if}
-			{if (isset($info))}
-				{if (count ( $info ) > 0 )}
-				<ol style="margin: 2em auto; padding: 1em auto; border-radius: 5px; background-color: #8f8;">
-				{foreach $info as $inf }
-				{strip}
-					<li>{$inf}</li>
-				{/strip}
-				{/foreach}
-				</ol>
-				{/if}
-			{/if}
+		{if $msgs->isError()} 
+			<ol style="margin: 2em auto; padding: 1em auto; border-radius: 5px; background-color: #f88;">
+			{foreach $msgs->getErrors() as $err }
+			{strip}
+                            <li>{$err}</li>
+			{/strip}
+			{/foreach}
+			</ol>
+                {/if}
+		{if $msgs->isInfo()}
+                        <ol style="margin: 2em auto; padding: 1em auto; border-radius: 5px; background-color: #8f8;">
+                        {foreach $msgs->getInfos() as $inf }
+                        {strip}
+                                <li>{$inf}</li>
+                        {/strip}
+                        {/foreach}
+                        </ol>
+                {/if}
           {if (isset($result))}
           <div style="margin: 2em auto; padding: 2em auto; border-radius: 5px; background-color: #ff0;">
-            Wynik: {$result}
+            Wynik: {round($result, 2)}
           </div>
-		  {/if}
+          {/if}
         </div>
       </div>
     </section>

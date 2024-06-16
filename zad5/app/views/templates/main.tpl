@@ -13,16 +13,16 @@
       content="width=device-width, initial-scale=1, user-scalable=no"
     />
     <link rel="stylesheet" href=
-    "{$app_url}/assets/css/main.css">
+          "{$conf->app_url}/assets/css/main.css">
   </head>
   <body class="landing is-preload">
     <div id="page-wrapper">
       <!-- Header -->
       <header id="header" class="alt">
-        <h1><a href="{$app_url}">Alpha</a> by HTML5 UP</h1>
+        <h1><a href="{$conf->app_url}">Alpha</a> by HTML5 UP</h1>
         <nav id="nav">
           <ul>
-            <li><a href="{$app_url}">Home</a></li>
+            <li><a href="{$conf->app_url}">Home</a></li>
           </ul>
         </nav>
       </header>
